@@ -17,11 +17,9 @@ export default function Register() {
     e.preventDefault();
     try {
       const res = await api.post("/register", form);
-      console.log(res.status);
       setToken(res.data.access_token);
       navigate("/todos");
     } catch (err) {
-      console.log(err.response.data.errors);
       setError(err.response.data.errors);
     }
   };
@@ -75,7 +73,9 @@ export default function Register() {
             required
           />
 
-          {error && <p className="text-red-500 text-sm text-center">{}</p>}
+          {error && (
+            <p className="text-red-500 text-sm text-center">{error[0]}</p>
+          )}
 
           <button
             type="submit"
