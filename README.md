@@ -1,12 +1,72 @@
-# React + Vite
+# Todo Frontend (React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern Todo List application built with React, featuring authentication and CRUD operations, communicating with a Laravel backend via Axios API.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project Overview
 
-## Expanding the ESLint configuration
+This project is a simple yet robust Todo List frontend application. It allows users to register, log in, and manage their personal todo tasks. The frontend is built with React and styled using Tailwind CSS. It communicates with a Laravel backend API for authentication and data persistence using Axios.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Features
+
+- User registration and login
+- JWT-based authentication (token stored in localStorage)
+- Add, edit, complete, and delete todos
+- Logout functionality
+- Responsive and modern UI with Tailwind CSS
+- Protected routes for authenticated users
+
+## Tech Stack
+
+- **React** (with Vite for fast development)
+- **React Router** for client-side routing
+- **Axios** for HTTP requests
+- **Tailwind CSS** for styling
+- **Laravel** (backend, not included in this repo)
+
+## Setup Instructions
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repo-url>
+   cd todo-front1
+   ```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+3. **Configure API endpoint:**
+   - By default, the frontend expects the Laravel API at `http://localhost:8000/api` (see `src/api.js`).
+   - Update the `baseURL` in `src/api.js` if your backend runs elsewhere.
+4. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+
+## Usage
+
+- Register a new account or log in with existing credentials.
+- Add new todos, mark them as complete/incomplete, edit, or delete them.
+- Log out to end your session.
+
+## API Communication
+
+- All API requests are made via Axios to the Laravel backend.
+- JWT tokens are stored in `localStorage` and attached to requests via the `Authorization` header.
+- Endpoints used:
+  - `POST /login` — Authenticate user
+  - `POST /register` — Register new user
+  - `GET /todos` — Fetch todos
+  - `POST /todos` — Add todo
+  - `PUT /todos/:id` — Update todo
+  - `DELETE /todos/:id` — Delete todo
+  - `POST /logout` — Logout user
+
+## Author
+
+Hassan Balleh
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE) (add a LICENSE file if needed).
