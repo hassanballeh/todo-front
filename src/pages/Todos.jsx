@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../api";
-import { clearToken } from "../auth";
+import { clearToken, getName, clearName } from "../auth";
 import { useNavigate } from "react-router-dom";
 
 export default function Todos() {
@@ -108,15 +108,21 @@ export default function Todos() {
     } catch (err) {
       console.error("Logout failed:", err);
     } finally {
+      clearName();
       clearToken();
       navigate("/login");
     }
   };
 
   return (
-    <div className=" max-w-7xl flex flex-col">
-      <header className="">
-        <div className=" mx-auto px-4 py-4 flex justify-end">
+    <div className="  flex flex-col">
+      <header className=" flex mx-auto px-10 lg:px-[100px] py-4 items-center justify-between w-full">
+        <div>
+          <h3 className="text-2xl text-blue-500">
+            {getName()[0].toUpperCase() + getName().slice(1)}
+          </h3>
+        </div>
+        <div className=" flex justify-end">
           <button
             onClick={logout}
             className="text-gray-700 hover:text-blue-500 px-4 py-2 rounded-lg transition flex items-center"

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../api";
-import { setToken } from "../auth";
+import { setToken, setName } from "../auth";
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -14,6 +14,7 @@ export default function Login() {
       const res = await api.post("/login", form);
       console.log(res);
       setToken(res.data.access_token);
+      setName(res.data.user.name);
       navigate("/todos");
     } catch (err) {
       setError("Invalid email or password.");
