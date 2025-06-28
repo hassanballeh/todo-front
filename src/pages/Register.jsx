@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../api";
-import { setToken, setName } from "../auth";
+import { setToken, setName, setExpiresAt } from "../auth";
 
 export default function Register() {
   const [form, setForm] = useState({
@@ -18,6 +18,7 @@ export default function Register() {
     try {
       const res = await api.post("/register", form);
       setToken(res.data.access_token);
+      setExpiresAt(res.data.expires_at);
       setName(res.data.user.name);
       navigate("/todos");
     } catch (err) {

@@ -7,15 +7,41 @@ import {
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Todos from "./pages/Todos";
-import { getToken } from "./auth";
+import { getToken, isTokenExpired } from "./auth";
 import "./index.css";
+import { useEffect } from "react";
+
 const ProtectedRoute = ({ children }) => {
-  return getToken() ? children : <Navigate to="/login" />;
+  const token = getToken();
+  if (!token || isTokenExpired(token)) {
+    localStorage.clear();
+    return <Navigate to="/login" />;
+  }
+
+  return children;
 };
+
 const GuestOnlyRoute = ({ children }) => {
-  return getToken() ? <Navigate to="/todos" /> : children;
+  const token = getToken();
+  if (token && !isTokenExpired(token)) {
+    return <Navigate to="/todos" />;
+  }
+
+  if (token && isTokenExpired(token)) {
+    localStorage.clear();
+  }
+
+  return children;
 };
+
 export default function App() {
+  useEffect(() => {
+    const token = getToken();
+    if (token && isTokenExpired(token)) {
+      localStorage.clear();
+    }
+  }, []);
+
   return (
     <Router>
       <Routes>

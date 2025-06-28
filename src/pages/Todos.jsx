@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../api";
 import { clearToken, getName, clearName } from "../auth";
 import { useNavigate } from "react-router-dom";
-
+import { getToken, isTokenExpired } from "../auth";
 export default function Todos() {
   const [todos, setTodos] = useState([]);
   const [title, setTitle] = useState("");
@@ -13,7 +13,15 @@ export default function Todos() {
   const [editCompleted, setEditCompleted] = useState(false);
   const navigate = useNavigate();
 
+  const checkToken = () => {
+    const token = getToken();
+    if (token && isTokenExpired(token)) {
+      localStorage.clear();
+      navigate("/login");
+    }
+  };
   const fetchTodos = async () => {
+    checkToken();
     try {
       const res = await api.get("/todos");
       setTodos(res.data.todos);
@@ -30,6 +38,7 @@ export default function Todos() {
   }, []);
 
   const addTodo = async () => {
+    checkToken();
     if (!title.trim()) return;
     try {
       const res = await api.post("/todos", { title, is_completed: false });
@@ -53,6 +62,7 @@ export default function Todos() {
   };
 
   const saveEdit = async (id) => {
+    checkToken();
     try {
       await api.put(`/todos/${id}`, {
         title: editTitle,
@@ -78,6 +88,7 @@ export default function Todos() {
   };
 
   const toggleComplete = async (todo) => {
+    checkToken();
     try {
       await api.put(`/todos/${todo.id}`, {
         title: todo.title,
@@ -94,6 +105,7 @@ export default function Todos() {
   };
 
   const deleteTodo = async (id) => {
+    checkToken();
     try {
       await api.delete(`/todos/${id}`);
       setTodos(todos.filter((todo) => todo.id !== id));
@@ -103,6 +115,7 @@ export default function Todos() {
   };
 
   const logout = async () => {
+    checkToken();
     try {
       await api.post("/logout");
     } catch (err) {
